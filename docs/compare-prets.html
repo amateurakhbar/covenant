@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compare — tenant covenant screening</title>
+<link rel="stylesheet" href="static/covenant.css">
+</head>
+<body>
+<div class="page">
+<header>
+  <div class="shell">
+    <div>
+      <a class="brand" href="index.html">Covenant</a>
+      <div class="brand-sub">Tenant covenant screening &middot; Source: Companies House (free, public) &middot; Independent &mdash; not an official publication</div>
+    </div>
+    <nav class="crumbs no-print">
+      <a href="index.html" ><span class="num">01</span> Search</a>
+      <a href="certificate-pret-holdco.html" aria-current="page"><span class="num">02</span> Certificate</a>
+      <a href="sweep-w1s.html" ><span class="num">03</span> Sweep</a>
+      <a href="appendix.html" class="dim" >Appendix</a>
+    </nav>
+  </div>
+</header><div style="background:#201e1d;color:#f3f2f2;font-size:12px;letter-spacing:0.05em;padding:8px 32px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap"><span>FROZEN CAPTURE &mdash; real register data, captured 10 Aug 2026. Search and sweep inputs are inactive here.</span><span>For live readings: <a href="https://github.com/amateurakhbar/covenant" style="color:#ffdd9c">clone the repo</a> and run <span style="font-family:monospace">python app.py</span></span></div>
+<main class="shell">
+
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap">
+    <div>
+      <div class="kicker">Part 2 &middot; Assessment certificate</div>
+      <h1 style="font-size:34px;margin:8px 0 0">Covenant assessment</h1>
+    </div>
+    <div class="no-print" style="display:flex;gap:12px;align-items:center">
+      <a class="btn btn-secondary" href="certificate-pret-holdco.html">Single assessment</a>
+      <button class="btn btn-secondary" onclick="window.print()">Print certificate</button>
+    </div>
+  </div>
+  <div class="prov">
+    <span class="badge"><span class="dot"></span>Live reading</span>
+    <span>Both entities fetched from the Companies House API at the moment of viewing &middot; 10 Aug 2026, 19:40 UTC</span>
+  </div>
+
+  <div style="margin-top:26px">
+    <hr class="hr-heavy">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:20px;flex-wrap:wrap">
+      <h2 style="font-size:24px">Same brand. Same registered address. Opposite covenant.</h2>
+    </div>
+    <div class="cmp tnum">
+      <div class="rowlab" style="border-bottom:2px solid var(--divider)"></div>
+      <div style="border-bottom:2px solid var(--divider)">
+        <div class="label" style="color:var(--accent-700);font-weight:600">The entity on the lease</div>
+        <div style="font-family:var(--heading);font-weight:800;font-size:17px;margin-top:2px">PRET A MANGER LIMITED</div>
+      </div>
+      <div style="border-bottom:2px solid var(--divider)">
+        <div class="label" style="font-weight:600">The trading entity</div>
+        <div style="font-family:var(--heading);font-weight:800;font-size:17px;margin-top:2px">PRET A MANGER (EUROPE) LIMITED</div>
+      </div>
+
+      <div class="rowlab label">Band &middot; score</div>
+      <div><span class="chip bC" style="font-size:16px;padding:2px 12px">C</span> <strong style="margin-left:8px">55/100</strong></div>
+      <div><span class="chip bA" style="font-size:16px;padding:2px 12px">A</span> <strong style="margin-left:8px">100/100</strong></div>
+
+      
+      <div class="rowlab label">Company number</div>
+      <div>11391321</div>
+      <div>01854213</div>
+      
+      <div class="rowlab label">Incorporated</div>
+      <div>2018-05-31</div>
+      <div>1984-10-10</div>
+      
+      <div class="rowlab label">Previous name</div>
+      <div>JAB (ACQUISITION) LTD — until 2019-12-20</div>
+      <div>M.B.S. (EUROPE) LIMITED — until 1993-08-02</div>
+      
+      <div class="rowlab label">SIC code</div>
+      <div>64209 — Activities of other holding companies</div>
+      <div>47110, 47290</div>
+      
+      <div class="rowlab label">Last accounts</div>
+      <div>made up to 2026-01-01 — type &#39;audit-exemption-subsidiary&#39;</div>
+      <div>made up to 2026-01-01 — type &#39;full&#39;</div>
+      
+
+      <div class="rowlab label" style="border-bottom-width:2px">Verdict</div>
+      <div style="border-bottom:2px solid var(--divider)"><strong>Weak covenant. Require a guarantee or 6-12 months&#39; rent deposit.</strong></div>
+      <div style="border-bottom:2px solid var(--divider)"><strong>Strong covenant. Institutionally acceptable without additional security.</strong></div>
+    </div>
+    <div style="margin-top:18px;font-size:14px;max-width:820px;line-height:1.6">The entity with the <em>less</em> obvious name is the one that has traded since 1984 and files full accounts. This distinction is free, public and structured &mdash; and almost nobody checks it, because checking it by hand across a rent roll is tedious.</div>
+  </div>
+
+</main>
+<footer>
+  <div class="shell">
+    <div class="quote">&ldquo;A screen, not an opinion &mdash; it tells you which entities deserve an hour of a surveyor&rsquo;s attention.&rdquo;</div>
+    <div>Nothing here is a Red Book valuation or investment advice</div>
+  </div>
+</footer>
+</div>
+</body>
+</html>
