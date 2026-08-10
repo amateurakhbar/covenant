@@ -8,7 +8,7 @@ real, and if not, where does the actual money sit?
 Everything here comes from the free Companies House REST API. No accounts parsing,
 no paid credit reference agency, no scraping.
 
-    export CH_API_KEY=...        # free: developer.company-information.service.gov.uk
+    export CH_API_KEY=...   # or COMPANIES_HOUSE_API_KEY. Free: developer.company-information.service.gov.uk
     python covenant.py "Pret A Manger"     # find the entity
     python covenant.py 01854213            # assess it
     python covenant.py --selftest          # prove the scoring, no key needed
@@ -57,9 +57,9 @@ def _today():
 
 def fetch(path, key=None):
     """GET a Companies House endpoint. Key is the HTTP basic auth username."""
-    key = key or os.environ.get("CH_API_KEY")
+    key = key or os.environ.get("CH_API_KEY") or os.environ.get("COMPANIES_HOUSE_API_KEY")
     if not key:
-        sys.exit("Set CH_API_KEY (free at developer.company-information.service.gov.uk)")
+        sys.exit("Set CH_API_KEY or COMPANIES_HOUSE_API_KEY (free at developer.company-information.service.gov.uk)")
     r = requests.get(API + path, auth=(key, ""), timeout=20)
     if r.status_code == 404:
         return None
