@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Covenant{% endblock %} — tenant covenant screening</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='covenant.css') }}">
+</head>
+<body>
+<div class="page">
+<header>
+  <div class="shell">
+    <div>
+      <a class="brand" href="{{ url_for('search') }}">Covenant</a>
+      <div class="brand-sub">Tenant covenant screening &middot; Source: Companies House (free, public) &middot; Independent &mdash; not an official publication</div>
+    </div>
+    <nav class="crumbs no-print">
+      <a href="{{ url_for('search') }}" {% if active == 'search' %}aria-current="page"{% endif %}><span class="num">01</span> Search</a>
+      <a href="{{ url_for('certificate', number='11391321') }}" {% if active == 'certificate' %}aria-current="page"{% endif %}><span class="num">02</span> Certificate</a>
+      <a href="{{ url_for('sweep_view', outward='W1S') }}" {% if active == 'sweep' %}aria-current="page"{% endif %}><span class="num">03</span> Sweep</a>
+      <a href="{{ url_for('appendix') }}" class="dim" {% if active == 'appendix' %}aria-current="page"{% endif %}>Appendix</a>
+    </nav>
+  </div>
+</header>
+<main class="shell">
+{% block main %}{% endblock %}
+</main>
+<footer>
+  <div class="shell">
+    <div class="quote">&ldquo;A screen, not an opinion &mdash; it tells you which entities deserve an hour of a surveyor&rsquo;s attention.&rdquo;</div>
+    <div>{% block footright %}Nothing here is a Red Book valuation or investment advice{% endblock %}</div>
+  </div>
+</footer>
+</div>
+</body>
+</html>

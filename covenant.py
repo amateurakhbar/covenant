@@ -91,7 +91,7 @@ def assess(profile, charges=None, psc=None):
     def hit(points, severity, statement):
         nonlocal score
         score -= points
-        flags.append((severity, statement))
+        flags.append((severity, statement, points))
 
     name = profile.get("company_name", "?")
     number = profile.get("company_number", "?")
@@ -137,7 +137,7 @@ def assess(profile, charges=None, psc=None):
         if acc_type == "audit-exemption-subsidiary":
             actions.add("The parent that gave the s479C guarantee is your real covenant — assess that entity instead.")
     elif acc_type == "full":
-        flags.append((0, "Files full accounts — the strongest disclosure level available"))
+        flags.append((0, "Files full accounts — the strongest disclosure level available", 0))
 
     made_up = last.get("made_up_to")
     if made_up:
@@ -162,7 +162,7 @@ def assess(profile, charges=None, psc=None):
         elif age < 5:
             hit(8, 1, f"Incorporated {profile.get('date_of_creation')} — {age:.0f} years of history, limited record")
         elif age > 15:
-            flags.append((0, f"Trading since {profile.get('date_of_creation')} — {age:.0f} years of history"))
+            flags.append((0, f"Trading since {profile.get('date_of_creation')} — {age:.0f} years of history", 0))
 
     # --- 6. Prior-ranking secured debt --------------------------------------
     items = charges.get("items") or []
@@ -194,7 +194,7 @@ def assess(profile, charges=None, psc=None):
                if "corporate" in (p.get("kind") or "") and not p.get("ceased_on")]
     if parents:
         p = parents[0]
-        flags.append((0, f"Controlled by {p.get('name')} — a potential guarantor"))
+        flags.append((0, f"Controlled by {p.get('name')} — a potential guarantor", 0))
         actions.add(f"Assess {p.get('name')} as the guarantor covenant.")
 
     score = max(0, min(100, score))
@@ -209,6 +209,7 @@ def assess(profile, charges=None, psc=None):
         "band": band,
         "verdict": verdict,
         "findings": [f[1] for f in flags],
+        "deductions": [{"finding": f[1], "points": f[2]} for f in flags],
         "recommended_actions": sorted(actions),
         "source": f"https://find-and-update.company-information.service.gov.uk/company/{number}",
     }

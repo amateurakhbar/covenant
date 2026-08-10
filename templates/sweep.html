@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% set active = 'sweep' %}
+{% block title %}Sweep {{ outward }}{% endblock %}
+{% block main %}
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap">
+    <div>
+      <div class="kicker">Part 3 &middot; Postcode sweep</div>
+      <h1 style="font-size:34px;margin:8px 0 0">Every covenant in an outward code</h1>
+    </div>
+    <form class="no-print" action="{{ url_for('search') }}" method="get" style="display:flex;gap:10px;align-items:flex-end">
+      <div class="field" style="width:140px">
+        <label for="q">Outward code</label>
+        <input class="input" id="q" name="q" value="{{ outward }}" style="min-height:40px;font-family:var(--heading);font-weight:800">
+      </div>
+      <button class="btn btn-primary" type="submit" style="min-height:40px">Sweep</button>
+    </form>
+  </div>
+  <div class="prov">
+    <span class="badge snap"><span class="dot"></span>Snapshot</span>
+    <span>Monthly bulk file dated 01 Aug 2026 &middot; 5,695,465 companies &middot; a photograph of the register, not a live reading &mdash; certificates are fetched live</span>
+  </div>
+
+  {% if total == 0 %}
+  <div class="note"><div class="kicker">Note</div>
+    <div style="font-size:14px">No companies are registered in {{ outward }}. Check the outward code &mdash; e.g. W1S, EC2M, SW1E.</div></div>
+  {% else %}
+
+  <hr class="hr-heavy" style="margin-top:24px;margin-bottom:0">
+  <div style="display:flex;align-items:baseline;gap:24px;flex-wrap:wrap;padding:18px 0 8px">
+    <div class="tnum" style="font-family:var(--heading);font-weight:800;font-size:44px;line-height:1">{{ '{:,}'.format(total) }}</div>
+    <div style="font-size:15px">companies registered in <strong>{{ outward }}</strong></div>
+    <div style="font-family:var(--heading);font-weight:800;font-size:20px;margin-left:auto;color:var(--accent-700)">{{ weak_pct }}% are band C or below</div>
+  </div>
+  <div class="dist tnum">
+    {% for b in 'ABCDE' %}{% set n = bands.get(b, 0) %}{% if n %}
+    <div style="width:{{ (100 * n / total) | round(1) }}%;background:var(--band{{ b }});{% if b == 'C' %}color:var(--text){% else %}color:var(--bg){% endif %}"><span>{{ b }}</span><span class="n">{{ '{:,}'.format(n) }}</span></div>
+    {% endif %}{% endfor %}
+  </div>
+  <div class="muted" style="display:flex;justify-content:space-between;font-size:11.5px;margin-top:6px;gap:16px;flex-wrap:wrap">
+    <span>E: {{ '{:,}'.format(bands.get('E', 0)) }} companies</span>
+    <span>Band C or below would need a guarantee, deposit, or a hard look before going on a lease.</span>
+  </div>
+
+  <div class="sweep-grid">
+    <div>
+      <h3 class="sechead" style="margin-top:0">Weakest covenants in {{ outward }}</h3>
+      <div class="muted" style="font-size:12.5px;margin-bottom:10px">Deep-dive candidates &mdash; ranked from the snapshot, confirmed by a live certificate.</div>
+      <table class="table tnum">
+        <thead><tr>
+          <th style="width:52px">Band</th>
+          <th style="width:56px">Score</th>
+          <th style="width:100px">No.</th>
+          <th>Name</th>
+          <th style="width:38%">The register says</th>
+        </tr></thead>
+        <tbody>
+          {% for w in weakest %}
+          <tr>
+            <td><span class="chip b{{ w.band }}">{{ w.band }}</span></td>
+            <td>{{ w.score }}</td>
+            <td><a href="{{ url_for('certificate', number=w.number) }}" style="text-decoration:none">{{ w.number }}</a></td>
+            <td><strong>{{ w.name }}</strong></td>
+            <td style="font-size:13px;color:var(--n800)">{{ w.why }}</td>
+          </tr>
+          {% endfor %}
+          <tr style="color:var(--n500)">
+            <td></td><td></td><td></td>
+            <td colspan="2" style="font-style:italic">&hellip; the full ranked table ({{ '{:,}'.format(total) }} rows) exports via <span style="font-family:ui-monospace,monospace;font-size:12px">sweep.py {{ outward }} --csv</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="muted" style="margin-top:22px;font-size:12.5px;line-height:1.6;border-top:1px solid var(--divider);padding-top:12px"><strong>Caveat, stated because it matters:</strong> this sweeps registered office addresses, and many companies register at an accountant or agent{% if concentration %} &mdash; {{ concentration }}% of {{ outward }} companies are registered at just 20 addresses{% endif %}. It finds the companies anchored to a place, not necessarily the shopfronts on it.</div>
+    </div>
+
+    <aside style="display:flex;flex-direction:column;gap:32px">
+      {% if league %}
+      <div>
+        <h3 class="sechead" style="margin-top:0">Distress league</h3>
+        <div class="muted" style="font-size:12.5px;margin-bottom:10px">% of active companies scoring below band B.</div>
+        <div class="tnum" style="display:flex;flex-direction:column;border-top:2px solid var(--divider)">
+          {% for code, pct in league %}
+          <div style="display:grid;grid-template-columns:46px 1fr 48px;gap:10px;align-items:center;padding:5px 0;border-bottom:1px solid var(--divider);{% if code == outward %}background:var(--accent-100){% endif %}">
+            <div style="font-family:var(--heading);font-weight:800;font-size:13px">{{ code }}</div>
+            <div class="minibar"><div style="width:{{ (100 * pct / league_max) | round(1) }}%;background:{% if code == outward %}var(--accent){% else %}var(--n800){% endif %}"></div></div>
+            <div style="font-size:12.5px;text-align:right;{% if code == outward %}font-weight:800{% endif %}">{{ pct }}%</div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+      {% if sectors %}
+      <div>
+        <h3 class="sechead" style="margin-top:0">{{ outward }} by sector</h3>
+        <div class="muted" style="font-size:12.5px;margin-bottom:10px">Largest SIC groups &middot; % band C or below.</div>
+        <div class="tnum" style="display:flex;flex-direction:column;border-top:2px solid var(--divider)">
+          {% for name, n, pct in sectors %}
+          <div style="padding:8px 0;border-bottom:1px solid var(--divider)">
+            <div style="display:flex;justify-content:space-between;gap:10px;font-size:13px"><span>{{ name }}</span><span class="muted">{{ '{:,}'.format(n) }} cos</span></div>
+            <div style="display:grid;grid-template-columns:1fr 44px;gap:10px;align-items:center;margin-top:4px">
+              <div class="minibar" style="height:10px"><div style="width:{{ (100 * pct / sector_max) | round(0) }}%;background:var(--n800)"></div></div>
+              <div style="font-size:12.5px;text-align:right;font-weight:600">{{ pct }}%</div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </aside>
+  </div>
+  {% endif %}
+{% endblock %}
+{% block footright %}Bulk snapshot 01 Aug 2026 &middot; scored offline in under a second &middot; registered offices, not trading addresses{% endblock %}
