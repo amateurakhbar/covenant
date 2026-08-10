@@ -12,9 +12,11 @@ Routes:
     /appendix                edge states and scope
 """
 
+import functools
 import os
 import re
 import sys
+import threading
 from datetime import datetime, timezone
 
 import duckdb
@@ -146,12 +148,11 @@ def compare(a, b):
     return render_template("compare.html", a=ra, b=rb, now=_now())
 
 
-@app.route("/sweep/<outward>")
-def sweep_view(outward):
-    outward = outward.upper()
-    if not os.path.exists(sweep_mod.PARQUET):
-        return render_template("appendix.html", now=_now(),
-                               error="No local snapshot — run sweep.py --build first."), 503
+@functools.lru_cache(maxsize=256)
+def _sweep_data(outward):
+    """All DuckDB work for one outward code. The snapshot is immutable until the
+    next monthly --build, so caching is correctness-preserving — and it turns a
+    ~30s scan on Render's 0.1-CPU free dyno into a dict lookup."""
     con = duckdb.connect()
     con.execute("SET memory_limit='300MB'")  # ponytail: fits Render's 512MB free dyno
     rows = con.execute(f"""
@@ -163,7 +164,7 @@ def sweep_view(outward):
         FROM scored ORDER BY score ASC, Name
     """, [outward]).fetchall()
     if not rows:
-        return render_template("sweep.html", outward=outward, total=0, now=_now())
+        return dict(outward=outward, total=0)
 
     bands = {}
     for r in rows:
@@ -211,17 +212,37 @@ def sweep_view(outward):
           GROUP BY Address ORDER BY c DESC LIMIT 20)
     """, [total, outward]).fetchone()[0]
 
-    return render_template("sweep.html", outward=outward, total=total, bands=bands,
-                           weak_pct=weak_pct, weakest=weakest, league=league,
-                           league_max=league[0][1] if league else 100,
-                           sectors=sectors, sector_max=sectors[0][2] if sectors else 100,
-                           concentration=int(conc or 0), now=_now())
+    return dict(outward=outward, total=total, bands=bands,
+                weak_pct=weak_pct, weakest=weakest, league=league,
+                league_max=league[0][1] if league else 100,
+                sectors=sectors, sector_max=sectors[0][2] if sectors else 100,
+                concentration=int(conc or 0))
+
+
+@app.route("/sweep/<outward>")
+def sweep_view(outward):
+    outward = outward.upper()
+    if not os.path.exists(sweep_mod.PARQUET):
+        return render_template("appendix.html", now=_now(),
+                               error="No local snapshot — run sweep.py --build first."), 503
+    return render_template("sweep.html", **_sweep_data(outward), now=_now())
 
 
 @app.route("/appendix")
 def appendix():
     return render_template("appendix.html", now=_now(), error=None)
 
+
+def _warm():
+    if os.path.exists(sweep_mod.PARQUET):
+        for code in ("W1S",):
+            try:
+                _sweep_data(code)
+            except Exception:
+                pass
+
+
+threading.Thread(target=_warm, daemon=True).start()
 
 if __name__ == "__main__":
     app.run(port=8321, debug=True)
