@@ -153,6 +153,7 @@ def sweep_view(outward):
         return render_template("appendix.html", now=_now(),
                                error="No local snapshot — run sweep.py --build first."), 503
     con = duckdb.connect()
+    con.execute("SET memory_limit='300MB'")  # ponytail: fits Render's 512MB free dyno
     rows = con.execute(f"""
         WITH scored AS (SELECT *, {sweep_mod.SCORE_SQL} AS score
                         FROM '{sweep_mod.PARQUET}' WHERE Outward = ?)
