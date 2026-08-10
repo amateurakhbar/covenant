@@ -166,18 +166,46 @@ def stats(prefix):
     print()
 
 
+def sectors(outward, min_n=100):
+    """Which sectors in this outward code are weakest, by average score and % weak."""
+    if not os.path.exists(PARQUET):
+        sys.exit("No local snapshot. Run:  python sweep.py --build <snapshot.csv>")
+    con = duckdb.connect()
+    rows = con.execute(f"""
+        WITH scored AS (
+          SELECT SIC1, {SCORE_SQL} AS score FROM '{PARQUET}'
+          WHERE Outward = ? AND SIC1 != ''
+        )
+        SELECT SIC1, count(*) AS n, round(avg(score)) AS avg_score,
+               round(100.0 * count(*) FILTER (WHERE score < 60) / count(*)) AS pct_weak
+        FROM scored GROUP BY SIC1 HAVING count(*) >= ? ORDER BY pct_weak DESC
+    """, [outward.upper(), min_n]).fetchall()
+    if not rows:
+        print(f"No sector in {outward.upper()} has {min_n}+ companies. Try --min-n with a smaller value.")
+        return
+    print(f"\n  Sectors in {outward.upper()} with {min_n}+ registered companies, weakest first:\n")
+    print(f"  {'sector (SIC)':<54}{'companies':>10}{'avg score':>11}{'% band C-E':>12}")
+    for sic, n, avg, pct in rows:
+        print(f"  {sic[:52]:<54}{n:>10,}{avg:>11.0f}{pct:>11.0f}%")
+    print()
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("outward", nargs="?", help="outward postcode, e.g. W1S")
     ap.add_argument("--build", metavar="CSV", help="build the parquet from a bulk snapshot CSV")
     ap.add_argument("--csv", metavar="OUT", help="write the full ranked table to a CSV")
     ap.add_argument("--stats", metavar="PREFIX", help="distress stats across outward codes")
+    ap.add_argument("--sectors", action="store_true", help="sector breakdown for the outward code")
+    ap.add_argument("--min-n", type=int, default=100, help="min companies per sector row (default 100)")
     ap.add_argument("--top", type=int, default=25, help="rows to print (default 25)")
     a = ap.parse_args()
     if a.build:
         build(a.build)
     elif a.stats:
         stats(a.stats)
+    elif a.outward and a.sectors:
+        sectors(a.outward, a.min_n)
     elif a.outward:
         sweep(a.outward, a.csv, a.top)
     else:
