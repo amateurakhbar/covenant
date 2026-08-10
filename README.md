@@ -8,7 +8,8 @@
 
 A lease has been offered by entity X. **Is that covenant real, and if not, where does the actual money sit?**
 
-- **[▶ Click through the dashboard](https://amateurakhbar.github.io/covenant/)** — frozen capture of real register data, no install
+- **[▶ Live dashboard](https://covenant-wtpu.onrender.com)** — search any tenant, sweep any postcode, live against the register (free tier: first visit after idle takes ~30 s to wake)
+- **[▶ Frozen capture](https://amateurakhbar.github.io/covenant/)** — the same dashboard on GitHub Pages: instant, never sleeps, inputs inactive
 - **[▶ Five-step demo narrative](DEMO.md)** — the story the tool tells, with real output
 
 ---

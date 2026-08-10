@@ -235,7 +235,7 @@ def appendix():
 
 def _warm():
     if os.path.exists(sweep_mod.PARQUET):
-        for code in ("W1S",):
+        for code in ("W1S", "EC2M", "SW1E", "W1K"):
             try:
                 _sweep_data(code)
             except Exception:
