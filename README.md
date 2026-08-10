@@ -4,6 +4,8 @@
 
 A lease has been offered by entity X. Is that covenant real, and if not, where does the actual money sit?
 
+**[→ Five-step live demo](DEMO.md)** — from an ambiguous name on a lease to a market-wide distress view, all real output.
+
 ---
 
 ## The problem, in one example
