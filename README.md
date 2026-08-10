@@ -80,6 +80,36 @@ python covenant.py --selftest         # prove the scoring, no key or network nee
 
 ---
 
+## Area sweeps: `sweep.py`
+
+The REST API answers "tell me about company X". It cannot answer "who is registered *here*". The free monthly [bulk snapshot](https://download.companieshouse.gov.uk/en_output.html) (~470 MB zipped, all 5.7M companies) can. `sweep.py` distils it once into a ~190 MB Parquet, then scores whole postcode areas in under a second:
+
+```bash
+python sweep.py --build BasicCompanyDataAsOneFile-2026-08-01.csv   # once
+python sweep.py W1S                  # rank every company in an outward code
+python sweep.py W1S --csv w1s.csv    # full table for a spreadsheet
+python sweep.py --stats W1           # distress league table across an area
+```
+
+Real output, snapshot of 2026-08-01:
+
+```
+  7,746 companies registered in W1S
+  A: 2,113  B: 2,007  C: 2,390  D: 1,008  E: 228
+  47% are band C or below — would need a guarantee, deposit,
+  or a hard look before going on a lease
+```
+
+The sweep uses only bulk-file columns (status, overdue dates, account category, SIC, charge counts). The weakest names it surfaces are then deep-dive candidates for `covenant.py`, which adds PSC, floating-charge detail and insolvency history from the live API.
+
+**Stated caveat:** this sweeps *registered* office addresses, and many companies register at an accountant or agent. It finds the companies anchored to a place, not necessarily the shopfronts on it. Joining the VOA rating list (actual occupiers, floor areas, rateable values) is the roadmap for trading-address truth.
+
+## Roadmap
+
+1. **VOA rating-list join** — map covenant bands onto actual trading occupiers and rateable value: "£Xm of rateable value in W1 sits on band-D covenants."
+2. **Covenant watch** — the Companies House streaming API pushes filing events in real time; alert a landlord the day a tenant goes accounts-overdue or grants a floating charge, months before it reaches the trade press.
+3. **Rent cover** — parse iXBRL accounts where they exist (many are image PDFs; coverage will be partial and will say so).
+
 ## Scope, honestly
 
 - **England, Wales, Scotland and NI**, wherever Companies House registration applies. Not partnerships, sole traders or overseas entities without a UK registration.
