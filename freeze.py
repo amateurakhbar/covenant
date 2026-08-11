@@ -37,7 +37,7 @@ BANNER = (
     'padding:8px 32px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap">'
     '<span>FROZEN CAPTURE &middot; real register data, captured {date}. '
     'Search and sweep inputs are inactive here.</span>'
-    '<span>For live readings: <a href="https://github.com/amateurakhbar/covenant" '
+    '<span>For live readings: <a href="https://github.com/akbar-33/covenant" '
     'style="color:#ffdd9c">clone the repo</a> and run <span style="font-family:monospace">'
     'python app.py</span></span></div>'
 ).format(date=datetime.now(timezone.utc).strftime("%d %b %Y"))

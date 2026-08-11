@@ -9,7 +9,7 @@
 A lease has been offered by entity X. **Is that covenant real, and if not, where does the actual money sit?**
 
 - **[▶ Live dashboard](https://covenant-wtpu.onrender.com)**: search any tenant, sweep any postcode, live against the register (free tier: first visit after idle takes ~30 s to wake)
-- **[▶ Frozen capture](https://amateurakhbar.github.io/covenant/)**: the same dashboard on GitHub Pages (instant, never sleeps, inputs inactive)
+- **[▶ Frozen capture](https://akbar-33.github.io/covenant/)**: the same dashboard on GitHub Pages (instant, never sleeps, inputs inactive)
 - **[▶ Five-step demo narrative](DEMO.md)**: the story the tool tells, with real output
 
 ---
@@ -112,14 +112,14 @@ Real output (snapshot 01 Aug 2026): **W1S (Mayfair) holds 7,746 registered compa
 python app.py     # -> http://localhost:8321
 ```
 
-Four views: entity search → assessment certificate (with the deduction ledger, an EPC-style band scale, and a print layout) → two-entity comparison → postcode sweep with a distress league and sector panel. Search and certificates hit the live API; sweeps run on the local snapshot. A hosted **frozen capture** of all four is on [GitHub Pages](https://amateurakhbar.github.io/covenant/): same pages, real data, inputs inactive.
+Four views: entity search → assessment certificate (with the deduction ledger, an EPC-style band scale, and a print layout) → two-entity comparison → postcode sweep with a distress league and sector panel. Search and certificates hit the live API; sweeps run on the local snapshot. A hosted **frozen capture** of all four is on [GitHub Pages](https://akbar-33.github.io/covenant/): same pages, real data, inputs inactive.
 
 ---
 
 ## Setup
 
 ```bash
-git clone https://github.com/amateurakhbar/covenant && cd covenant
+git clone https://github.com/akbar-33/covenant && cd covenant
 pip install -r requirements.txt          # requests, duckdb, flask
 export CH_API_KEY=...                    # free, instant:
                                          # developer.company-information.service.gov.uk
