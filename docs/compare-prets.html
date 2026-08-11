@@ -19,7 +19,7 @@
       <a href="index.html" ><span class="num">01</span> Search</a>
       <a href="certificate-pret-holdco.html" aria-current="page"><span class="num">02</span> Certificate</a>
       <a href="sweep-w1s.html" ><span class="num">03</span> Sweep</a>
-      <a href="appendix.html" class="dim" >Appendix</a>
+      <a href="appendix.html" class="dim" >Appendix</a><button class="theme-toggle no-print" type="button" onclick="akTheme()">Dark</button>
     </nav>
   </div>
 </header><div style="background:#201e1d;color:#f3f2f2;font-size:12px;letter-spacing:0.05em;padding:8px 32px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap"><span>FROZEN CAPTURE &middot; real register data, captured 11 Aug 2026. Search and sweep inputs are inactive here.</span><span>For live readings: <a href="https://github.com/akbar-33/covenant" style="color:#ffdd9c">clone the repo</a> and run <span style="font-family:monospace">python app.py</span></span></div>
@@ -97,5 +97,14 @@
   </div>
 </footer>
 </div>
+<script>
+(function(){var k="covenant-theme";try{if(localStorage.getItem(k)==="dark")document.documentElement.setAttribute("data-theme","dark");}catch(e){}
+window.akTheme=function(){var r=document.documentElement,d=r.getAttribute("data-theme")!=="dark";
+if(d)r.setAttribute("data-theme","dark");else r.removeAttribute("data-theme");
+try{localStorage.setItem(k,d?"dark":"light");}catch(e){}
+document.querySelectorAll(".theme-toggle").forEach(function(b){b.textContent=d?"Light":"Dark";b.setAttribute("aria-pressed",String(d));});};
+document.addEventListener("DOMContentLoaded",function(){var d=document.documentElement.getAttribute("data-theme")==="dark";
+document.querySelectorAll(".theme-toggle").forEach(function(b){b.textContent=d?"Light":"Dark";b.setAttribute("aria-label","Toggle dark and light theme");});});})();
+</script>
 </body>
 </html>

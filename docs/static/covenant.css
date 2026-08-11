@@ -172,3 +172,33 @@ details.method summary::-webkit-details-marker { display: none; }
 .ded { color: var(--accent-700); font-weight: 600; text-align: right; }
 
 @media print { .no-print { display: none !important; } body { background: #fff; } }
+
+/* ---------- dark theme ----------
+   Opt-in via :root[data-theme="dark"], set by the toggle in the header and
+   remembered in localStorage. Light stays the default so print and the
+   certificate layout are unchanged. */
+:root[data-theme="dark"] {
+  --bg: #131418; --surface: #1b1d23; --text: #edebe5;
+  --accent: #ff5a38; --accent-100: #2a1a16; --accent-600: #ff7355; --accent-700: #ff8b70;
+  --n200: #2b2d34; --n500: #7e7c78; --n600: #918f8a; --n700: #a8a6a0; --n800: #c9c7c1;
+  --divider: color-mix(in srgb, #edebe5 34%, transparent);
+  --bandA: oklch(0.72 0.15 150); --bandB: oklch(0.78 0.15 122);
+  --bandC: oklch(0.82 0.15 85); --bandD: oklch(0.72 0.18 50); --bandE: var(--accent);
+  color-scheme: dark;
+}
+html { color-scheme: light; }
+body { transition: background .35s ease, color .35s ease; }
+
+.theme-toggle {
+  font: inherit; font-size: 11px; letter-spacing: .07em; text-transform: uppercase;
+  font-weight: 600; color: var(--n700); background: var(--surface);
+  border: 1px solid var(--divider); border-radius: 2px; padding: 5px 9px;
+  cursor: pointer; display: inline-flex; align-items: center; gap: 6px; margin-left: 14px;
+  transition: color .2s, border-color .2s;
+}
+.theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+.theme-toggle::before {
+  content: ""; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent); flex: none;
+}
+@media print { .theme-toggle { display: none; } }

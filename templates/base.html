@@ -20,6 +20,7 @@
       <a href="{{ url_for('certificate', number='11391321') }}" {% if active == 'certificate' %}aria-current="page"{% endif %}><span class="num">02</span> Certificate</a>
       <a href="{{ url_for('sweep_view', outward='W1S') }}" {% if active == 'sweep' %}aria-current="page"{% endif %}><span class="num">03</span> Sweep</a>
       <a href="{{ url_for('appendix') }}" class="dim" {% if active == 'appendix' %}aria-current="page"{% endif %}>Appendix</a>
+      <button class="theme-toggle no-print" type="button" onclick="akTheme()">Dark</button>
     </nav>
   </div>
 </header>
@@ -33,5 +34,14 @@
   </div>
 </footer>
 </div>
+<script>
+(function(){var k="covenant-theme";try{if(localStorage.getItem(k)==="dark")document.documentElement.setAttribute("data-theme","dark");}catch(e){}
+window.akTheme=function(){var r=document.documentElement,d=r.getAttribute("data-theme")!=="dark";
+if(d)r.setAttribute("data-theme","dark");else r.removeAttribute("data-theme");
+try{localStorage.setItem(k,d?"dark":"light");}catch(e){}
+document.querySelectorAll(".theme-toggle").forEach(function(b){b.textContent=d?"Light":"Dark";b.setAttribute("aria-pressed",String(d));});};
+document.addEventListener("DOMContentLoaded",function(){var d=document.documentElement.getAttribute("data-theme")==="dark";
+document.querySelectorAll(".theme-toggle").forEach(function(b){b.textContent=d?"Light":"Dark";b.setAttribute("aria-label","Toggle dark and light theme");});});})();
+</script>
 </body>
 </html>
