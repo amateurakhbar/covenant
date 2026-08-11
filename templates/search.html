@@ -4,7 +4,7 @@
 {% block main %}
   <div class="kicker">Part 1 &middot; Entity search</div>
   <h1 style="font-size:34px;margin:8px 0 6px">Which entity is on the lease?</h1>
-  <p class="muted" style="max-width:640px;font-size:14px;margin:0 0 20px">A tenant name, a company number, or a postcode. The register is searched directly &mdash; no credit agency, nothing paid.</p>
+  <p class="muted" style="max-width:640px;font-size:14px;margin:0 0 20px">A tenant name, a company number, or a postcode. The register is searched directly: no credit agency, nothing paid.</p>
   <form action="{{ url_for('search') }}" method="get" style="display:flex;gap:10px;align-items:flex-end;max-width:720px">
     <div class="field" style="flex:1">
       <label for="q">Tenant name, company number or postcode</label>
@@ -45,7 +45,7 @@
     </tbody>
   </table>
   <div style="display:flex;gap:12px;align-items:baseline;margin-top:14px;font-size:12.5px" class="muted">
-    <span style="color:var(--accent)">&times;</span><span>dissolved &mdash; the entity no longer exists; a lease naming it has no covenant at all.</span>
+    <span style="color:var(--accent)">&times;</span><span>dissolved: the entity no longer exists; a lease naming it has no covenant at all.</span>
   </div>
   {% else %}
   <div style="max-width:520px;margin-top:24px" class="edge">
@@ -54,7 +54,7 @@
       <div class="muted" style="font-size:13px;margin-bottom:10px">Searched: <em>&ldquo;{{ q }}&rdquo;</em></div>
       <div style="font-family:var(--heading);font-weight:800;font-size:22px"><span style="color:var(--accent)">0</span> entities match</div>
       <hr class="hr" style="margin:12px 0">
-      <div style="font-size:13.5px;line-height:1.6">No registered company carries this name. The tenant is likely a <strong>sole trader or partnership</strong> &mdash; not on the register at all, so this screen cannot assess it.</div>
+      <div style="font-size:13.5px;line-height:1.6">No registered company carries this name. The tenant is likely a <strong>sole trader or partnership</strong>, not on the register at all, so this screen cannot assess it.</div>
       <div class="actions" style="margin-top:12px;font-size:13.5px">
         <div><span class="arrow">&rarr;</span><span>Take the covenant from the named individuals, with certified accounts.</span></div>
         <div><span class="arrow">&rarr;</span><span>Or require a guarantor that is a registered company, and screen that.</span></div>

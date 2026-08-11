@@ -40,14 +40,14 @@
 
       {% for key in ['Company number', 'Incorporated', 'Previous name', 'SIC code', 'Last accounts'] %}
       <div class="rowlab label">{{ key }}</div>
-      <div>{{ fact(a, key) or '—' }}</div>
-      <div>{{ fact(b, key) or '—' }}</div>
+      <div>{{ fact(a, key) or '-' }}</div>
+      <div>{{ fact(b, key) or '-' }}</div>
       {% endfor %}
 
       <div class="rowlab label" style="border-bottom-width:2px">Verdict</div>
       <div style="border-bottom:2px solid var(--divider)"><strong>{{ a.verdict }}</strong></div>
       <div style="border-bottom:2px solid var(--divider)"><strong>{{ b.verdict }}</strong></div>
     </div>
-    <div style="margin-top:18px;font-size:14px;max-width:820px;line-height:1.6">The entity with the <em>less</em> obvious name is the one that has traded since 1984 and files full accounts. This distinction is free, public and structured &mdash; and almost nobody checks it, because checking it by hand across a rent roll is tedious.</div>
+    <div style="margin-top:18px;font-size:14px;max-width:820px;line-height:1.6">The entity with the <em>less</em> obvious name is the one that has traded since 1984 and files full accounts. This distinction is free, public and structured, and almost nobody checks it, because checking it by hand across a rent roll is tedious.</div>
   </div>
 {% endblock %}

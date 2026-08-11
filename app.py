@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Covenant dashboard — the Claude Design front-end wired to the live engines.
+Covenant dashboard: the Claude Design front-end wired to the live engines.
 
     python app.py            # http://localhost:8321
 
@@ -72,23 +72,23 @@ def _facts(profile):
     acc = (profile.get("accounts") or {}).get("last_accounts") or {}
     cs = profile.get("confirmation_statement") or {}
     prev = profile.get("previous_company_names") or []
-    facts = [("Company number", profile.get("company_number", "—")),
-             ("Incorporated", profile.get("date_of_creation", "—"))]
+    facts = [("Company number", profile.get("company_number", "-")),
+             ("Incorporated", profile.get("date_of_creation", "-"))]
     if prev:
-        facts.append(("Previous name", f"{prev[0].get('name')} — until {prev[0].get('ceased_on')}"))
+        facts.append(("Previous name", f"{prev[0].get('name')} · until {prev[0].get('ceased_on')}"))
     sics = profile.get("sic_codes") or []
     if sics:
         label = ", ".join(sics)
         if sics[0] in covenant.NON_TRADING_SIC:
-            label = f"{sics[0]} — {covenant.NON_TRADING_SIC[sics[0]]}"
+            label = f"{sics[0]} · {covenant.NON_TRADING_SIC[sics[0]]}"
         facts.append(("SIC code", label))
     if acc.get("made_up_to"):
-        facts.append(("Last accounts", f"made up to {acc['made_up_to']} — type '{acc.get('type', '?')}'"))
+        facts.append(("Last accounts", f"made up to {acc['made_up_to']} · type '{acc.get('type', '?')}'"))
     else:
         facts.append(("Last accounts", "none filed"))
     if cs.get("next_due"):
         facts.append(("Confirmation stmt",
-                      f"next due {cs['next_due']} — {'OVERDUE' if cs.get('overdue') else 'not overdue'}"))
+                      f"next due {cs['next_due']} · {'OVERDUE' if cs.get('overdue') else 'not overdue'}"))
     return facts
 
 
@@ -121,7 +121,7 @@ def search():
     if NUMBER_RE.match(q.replace(" ", "")):
         return redirect(url_for("certificate", number=q.replace(" ", "").upper()))
     hits = covenant.search(q)
-    # Flag duplicate registered names — the trap the demo is built on.
+    # Flag duplicate registered names, the trap the demo is built on.
     names = {}
     for h in hits:
         names[h.get("title")] = names.get(h.get("title"), 0) + 1
@@ -151,7 +151,7 @@ def compare(a, b):
 @functools.lru_cache(maxsize=256)
 def _sweep_data(outward):
     """All DuckDB work for one outward code. The snapshot is immutable until the
-    next monthly --build, so caching is correctness-preserving — and it turns a
+    next monthly --build, so caching is correctness-preserving, and it turns a
     ~30s scan on Render's 0.1-CPU free dyno into a dict lookup."""
     con = duckdb.connect()
     con.execute("SET memory_limit='300MB'")  # ponytail: fits Render's 512MB free dyno
@@ -224,7 +224,7 @@ def sweep_view(outward):
     outward = outward.upper()
     if not os.path.exists(sweep_mod.PARQUET):
         return render_template("appendix.html", now=_now(),
-                               error="No local snapshot — run sweep.py --build first."), 503
+                               error="No local snapshot: run sweep.py --build first."), 503
     return render_template("sweep.html", **_sweep_data(outward), now=_now())
 
 
