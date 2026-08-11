@@ -1,0 +1,58 @@
+{% if ga_id %}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ ga_id }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+
+  // Consent Mode v2. Nothing is stored until the visitor agrees: UK and EU rules
+  // require consent for analytics cookies, and this site is read by people whose
+  // profession is auditing exactly this sort of thing.
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied'
+  });
+  gtag('js', new Date());
+  gtag('config', '{{ ga_id }}', { anonymize_ip: true });
+
+  (function () {
+    var KEY = 'analytics-consent', saved = null;
+    try { saved = localStorage.getItem(KEY); } catch (e) {}
+    if (saved === 'granted') { gtag('consent', 'update', { analytics_storage: 'granted' }); return; }
+    if (saved === 'denied') { return; }
+
+    function decide(choice) {
+      try { localStorage.setItem(KEY, choice); } catch (e) {}
+      if (choice === 'granted') { gtag('consent', 'update', { analytics_storage: 'granted' }); }
+      var bar = document.getElementById('consent-bar');
+      if (bar) { bar.remove(); }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      var bar = document.createElement('div');
+      bar.id = 'consent-bar';
+      bar.setAttribute('role', 'region');
+      bar.setAttribute('aria-label', 'Analytics consent');
+      bar.style.cssText = 'position:fixed;left:0;right:0;bottom:0;z-index:999;background:#201e1d;' +
+        'color:#f3f2f2;font:14px Archivo,system-ui,sans-serif;padding:12px 20px;display:flex;' +
+        'gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;' +
+        'border-top:3px solid #ec3013';
+      var msg = document.createElement('span');
+      msg.textContent = 'Analytics cookies measure how this demonstration is used. Nothing is stored unless you accept.';
+      var yes = document.createElement('button');
+      yes.textContent = 'Accept';
+      yes.style.cssText = 'font:800 13px Archivo,system-ui,sans-serif;background:#ec3013;color:#f3f2f2;' +
+        'border:0;padding:7px 16px;cursor:pointer';
+      var no = document.createElement('button');
+      no.textContent = 'Decline';
+      no.style.cssText = 'font:800 13px Archivo,system-ui,sans-serif;background:transparent;color:#f3f2f2;' +
+        'border:1px solid #7d7979;padding:7px 16px;cursor:pointer';
+      yes.addEventListener('click', function () { decide('granted'); });
+      no.addEventListener('click', function () { decide('denied'); });
+      bar.appendChild(msg); bar.appendChild(yes); bar.appendChild(no);
+      document.body.appendChild(bar);
+    });
+  })();
+</script>
+{% endif %}

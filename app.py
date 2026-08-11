@@ -40,6 +40,13 @@ if not (os.environ.get("CH_API_KEY") or os.environ.get("COMPANIES_HOUSE_API_KEY"
 
 app = Flask(__name__)
 
+
+@app.context_processor
+def _analytics():
+    """GA runs only when GA_ID is set, so local and CI runs stay clean."""
+    return {"ga_id": os.environ.get("GA_ID", "")}
+
+
 CH_URL = "https://find-and-update.company-information.service.gov.uk/company"
 OUTWARD_RE = re.compile(r"^[A-Za-z]{1,2}\d[A-Za-z\d]?$")
 NUMBER_RE = re.compile(r"^[A-Za-z]{0,2}\d{6,8}$")

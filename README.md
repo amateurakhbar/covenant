@@ -181,6 +181,15 @@ The API is rate-limited at 600 requests/5 min; a full assessment costs ≤3 call
 2. **Covenant watch**: the Companies House streaming API pushes filing events in real time; alert a landlord the day a tenant goes accounts-overdue or grants a floating charge.
 3. **Rent cover**: parse iXBRL accounts where they exist; coverage will be partial and will say so.
 
+## Analytics
+
+Off unless `GA_ID` is set, so local runs, CI and anyone's clone stay clean. When it is set (the hosted demos), Google Analytics loads under **Consent Mode v2**: `analytics_storage` defaults to *denied*, a one-line bar asks, and nothing is stored unless the visitor accepts.
+
+```bash
+GA_ID=G-XXXXXXXXXX python app.py       # live dashboard
+GA_ID=G-XXXXXXXXXX python freeze.py    # bake it into the GitHub Pages capture
+```
+
 ## Sibling project
 
 [**oversight**](https://github.com/akbar-33/oversight) · records tooling for the RICS professional standard *Responsible use of AI in surveying practice*, in force since 9 March 2026. A firm using covenant on real instructions has obligations under that standard: an AI system register, a written reliability decision by a named surveyor for each material output, client disclosure. Oversight produces those records, and its worked example registers covenant as one of the firm's AI systems, with a real reliability decision for the Pret screening above.
