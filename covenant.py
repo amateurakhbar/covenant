@@ -24,7 +24,7 @@ import requests
 
 API = "https://api.company-information.service.gov.uk"
 
-# SIC codes that mean "this entity does not trade"; a lease covenant sitting in one
+# SIC codes that mean "this entity does not trade". A lease covenant sitting in one
 # of these is a shell unless a trading parent guarantees it.
 NON_TRADING_SIC = {
     "64209": "Activities of other holding companies",
@@ -41,13 +41,13 @@ NON_TRADING_SIC = {
 
 # Accounts filing type -> (points deducted, what it tells a surveyor)
 THIN_ACCOUNTS = {
-    "dormant": (45, "dormant accounts: the entity does not trade"),
-    "micro-entity": (30, "micro-entity accounts: turnover under £1m, balance sheet under £500k"),
-    "total-exemption-full": (12, "small-company exemption: no audit, limited disclosure"),
-    "total-exemption-small": (12, "small-company exemption: no audit, limited disclosure"),
+    "dormant": (45, "dormant accounts; the entity does not trade"),
+    "micro-entity": (30, "micro-entity accounts; turnover under £1m, balance sheet under £500k"),
+    "total-exemption-full": (12, "small-company exemption; no audit, limited disclosure"),
+    "total-exemption-small": (12, "small-company exemption; no audit, limited disclosure"),
     "audit-exemption-subsidiary": (20, "audit exemption as a subsidiary; relies on a parent guarantee (s479C)"),
-    "small": (10, "small-company accounts: no P&L disclosure"),
-    "initial": (25, "no accounts filed yet: no trading record"),
+    "small": (10, "small-company accounts; no P&L disclosure"),
+    "initial": (25, "no accounts filed yet; no trading record"),
 }
 
 
@@ -85,7 +85,7 @@ def assess(profile, charges=None, psc=None):
     charges = charges or {}
     psc = psc or {}
     score = 100
-    flags = []          # (severity, statement); severity drives the sort order
+    flags = []          # (severity, statement): severity drives the sort order
     actions = set()
 
     def hit(points, severity, statement):
@@ -101,9 +101,9 @@ def assess(profile, charges=None, psc=None):
     if status != "active":
         label = status.replace("-", " ")
         if status in ("liquidation", "administration", "receivership", "insolvency-proceedings"):
-            hit(85, 3, f"Company is in {label}; the covenant has failed")
+            hit(85, 3, f"Company is in {label}: the covenant has failed")
         elif status in ("dissolved", "closed", "converted-closed"):
-            hit(100, 3, f"Company is {label}; this entity no longer exists")
+            hit(100, 3, f"Company is {label}: this entity no longer exists")
         else:
             hit(60, 3, f"Company status is '{label}', not active")
         actions.add("Do not proceed on this entity. Establish who, if anyone, has succeeded to the tenancy.")
@@ -157,12 +157,12 @@ def assess(profile, charges=None, psc=None):
     age = _years_since(profile.get("date_of_creation"))
     if age is not None:
         if age < 2:
-            hit(20, 2, f"Incorporated {profile.get('date_of_creation')}: under 2 years of trading history")
+            hit(20, 2, f"Incorporated {profile.get('date_of_creation')}, under 2 years of trading history")
             actions.add("No meaningful track record. Rent deposit of 6-12 months is the usual response.")
         elif age < 5:
             hit(8, 1, f"Incorporated {profile.get('date_of_creation')}: {age:.0f} years of history, limited record")
         elif age > 15:
-            flags.append((0, f"Trading since {profile.get('date_of_creation')}: {age:.0f} years of history", 0))
+            flags.append((0, f"Trading since {profile.get('date_of_creation')}, {age:.0f} years of history", 0))
 
     # --- 6. Prior-ranking secured debt --------------------------------------
     items = charges.get("items") or []
@@ -173,7 +173,7 @@ def assess(profile, charges=None, psc=None):
     if outstanding:
         sev = 2 if len(outstanding) > 3 else 1
         hit(min(4 * len(outstanding), 20), sev,
-            f"{len(outstanding)} outstanding charge(s) registered; secured lenders rank ahead of you")
+            f"{len(outstanding)} outstanding charge(s) registered: secured lenders rank ahead of you")
         if floating:
             hit(8, 2, f"{len(floating)} of those is a floating charge over the undertaking")
             actions.add("A floating charge captures the assets you would otherwise distrain against.")
@@ -187,7 +187,7 @@ def assess(profile, charges=None, psc=None):
     if profile.get("registered_office_is_in_dispute"):
         hit(15, 3, "Registered office address is in dispute")
     if profile.get("undeliverable_registered_office_address"):
-        hit(15, 3, "Registered office address is undeliverable; Companies House cannot reach this company")
+        hit(15, 3, "Registered office address is undeliverable: Companies House cannot reach this company")
 
     # --- 8. Who actually controls it ----------------------------------------
     parents = [p for p in (psc.get("items") or [])
@@ -390,7 +390,7 @@ def main():
     if not hits:
         print(f"No companies found for '{q}'")
         return
-    print(f"\n  {len(hits)} entities match '{q}': the covenant is only as good as the one on the lease:\n")
+    print(f"\n  {len(hits)} entities match '{q}'; the covenant is only as good as the one on the lease:\n")
     for h in hits[:15]:
         status = h.get("company_status", "?")
         mark = " " if status == "active" else "×"

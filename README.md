@@ -9,7 +9,7 @@
 A lease has been offered by entity X. **Is that covenant real, and if not, where does the actual money sit?**
 
 - **[▶ Live dashboard](https://covenant-wtpu.onrender.com)**: search any tenant, sweep any postcode, live against the register (free tier: first visit after idle takes ~30 s to wake)
-- **[▶ Frozen capture](https://amateurakhbar.github.io/covenant/)**: the same dashboard on GitHub Pages: instant, never sleeps, inputs inactive
+- **[▶ Frozen capture](https://amateurakhbar.github.io/covenant/)**: the same dashboard on GitHub Pages (instant, never sleeps, inputs inactive)
 - **[▶ Five-step demo narrative](DEMO.md)**: the story the tool tells, with real output
 
 ---
@@ -18,7 +18,7 @@ A lease has been offered by entity X. **Is that covenant real, and if not, where
 
 In UK commercial property, the building is almost secondary: what you are buying is the rental income stream, and that stream is only as good as the tenant's ability to keep paying. Surveyors call this **covenant strength**, and they assess it constantly: today by paying a credit reference agency per report, or by eyeballing.
 
-Meanwhile, every UK company files public, structured, machine-readable records at Companies House: for free: and buried in those records are the strongest early warnings of tenant failure. Almost nobody reads them systematically, because doing it by hand across a rent roll is tedious.
+Meanwhile, every UK company files public, structured, machine-readable records at Companies House (for free), and buried in those records are the strongest early warnings of tenant failure. Almost nobody reads them systematically, because doing it by hand across a rent roll is tedious.
 
 ## The example that carries the whole idea
 
@@ -29,9 +29,9 @@ Search the register for "Pret A Manger" and 20 entities come back: several disso
 | Company number | 11391321 | 01854213 |
 | Looks like | the famous sandwich chain | some subsidiary |
 | Actually is | a 2018 acquisition vehicle, formerly **JAB (ACQUISITION) LTD** | the trading company, since **1984** |
-| SIC code | 64209: *holding company* | 47110/47290: retail (trading) |
+| SIC code | 64209 · *holding company* | 47110/47290 · retail (trading) |
 | Accounts | audit-exemption-subsidiary (s479C) | **full accounts** |
-| **Covenant** | **Band C: 55/100.** Require a guarantee or deposit | **Band A: 100/100.** Institutionally acceptable |
+| **Covenant** | **Band C · 55/100.** Require a guarantee or deposit | **Band A · 100/100.** Institutionally acceptable |
 
 Same brand. Same registered address. Opposite covenant. **A landlord who signs the first entity thinks they have the sandwich chain: they have a shell.** That distinction is free, public, and structured; this repo is the machinery for checking it at any scale from one tenant to the whole country.
 
@@ -58,11 +58,11 @@ The two data sources have different currencies, kept visibly distinct everywhere
 
 ## What it looks like
 
-The assessment certificate: deduction ledger on the left (every finding linked to the register page that evidences it), EPC-style band scale on the right:
+The assessment certificate · deduction ledger on the left (every finding linked to the register page that evidences it), EPC-style band scale on the right:
 
 ![Assessment certificate for Pret A Manger Limited showing band C, 55/100, with the schedule of findings and deduction ledger](docs/img/covenant-certificate.png)
 
-The postcode sweep: 7,746 companies scored, band distribution, the weakest names, a distress league across the W1 district and a sector panel:
+The postcode sweep · 7,746 companies scored, band distribution, the weakest names, a distress league across the W1 district and a sector panel:
 
 ![Postcode sweep of W1S showing 47 percent band C or below, the weakest covenants table and the distress league](docs/img/covenant-sweep.png)
 
@@ -71,17 +71,17 @@ The postcode sweep: 7,746 companies scored, band distribution, the weakest names
 ## What's in the repo
 
 ```
-covenant.py     screen ONE tenant    : live Companies House REST API
-sweep.py        screen an AREA       : DuckDB over the free monthly bulk
+covenant.py     screen ONE tenant     · live Companies House REST API
+sweep.py        screen an AREA        · DuckDB over the free monthly bulk
                                         snapshot (5.7M companies)
-app.py          the dashboard        : Flask, both engines behind the
+app.py          the dashboard         · Flask, both engines behind the
                                         Claude-designed front-end
-freeze.py       docs/ generator      : frozen static capture for GitHub Pages
-templates/ + static/                 : the dashboard UI
+freeze.py       docs/ generator       · frozen static capture for GitHub Pages
+templates/ + static/                  · the dashboard UI
 DEMO.md         the five-step demo narrative with captured real output
 ```
 
-### `covenant.py`: one tenant, live
+### `covenant.py` · one tenant, live
 
 ```bash
 python covenant.py "Pret A Manger"     # disambiguate the entity
@@ -90,9 +90,9 @@ python covenant.py 01854213 --json     # for a pipeline
 python covenant.py --selftest          # prove the scoring; no key, no network
 ```
 
-Returns a band **A–E**, a score /100, a schedule of findings **each traced to the filing that caused it**, and recommended actions in transaction language: *take a 12-month rent deposit*, *the parent that gave the s479C guarantee is your real covenant: assess that entity instead*.
+Returns a band **A–E**, a score /100, a schedule of findings **each traced to the filing that caused it**, and recommended actions in transaction language: *take a 12-month rent deposit*, *the parent that gave the s479C guarantee is your real covenant; assess that entity instead*.
 
-### `sweep.py`: a whole area, offline
+### `sweep.py` · a whole area, offline
 
 The REST API answers "tell me about company X". It cannot answer "who is registered *here*". The free [monthly bulk snapshot](https://download.companieshouse.gov.uk/en_output.html) can:
 
@@ -106,7 +106,7 @@ python sweep.py --stats W1             # distress league across outward codes
 
 Real output (snapshot 01 Aug 2026): **W1S (Mayfair) holds 7,746 registered companies, 47% band C or below**: the weakest include live companies with receiver-managers on their charges and a 2024 propco at 354 Oxford Street whose first accounts are already overdue. Each sweep runs in ~0.6 s.
 
-### `app.py`: the dashboard
+### `app.py` · the dashboard
 
 ```bash
 python app.py     # -> http://localhost:8321
@@ -127,11 +127,11 @@ export CH_API_KEY=...                    # free, instant:
 
 `COMPANIES_HOUSE_API_KEY` works as the variable name too, and a local `.env` file containing either is picked up by the dashboard. The CLI and dashboard work immediately; area sweeps additionally need the one-time `--build` of the bulk snapshot (~470 MB download).
 
-`python covenant.py --selftest` needs **no key and no network**: it runs the scoring against captured real payloads and asserts, among other things, that the Pret trading entity must outrank the holding vehicle.
+`python covenant.py --selftest` needs **no key and no network**; it runs the scoring against captured real payloads and asserts, among other things, that the Pret trading entity must outrank the holding vehicle.
 
 ## How the scoring works
 
-Deduction-based: every company starts at 100 and each finding subtracts a stated amount, so a score is an audit trail, not an opinion. All signals are **structured register fields**: nothing is parsed out of PDFs, no credit agency is involved.
+Deduction-based: every company starts at 100 and each finding subtracts a stated amount, so a score is an audit trail, not an opinion. All signals are **structured register fields**; nothing is parsed out of PDFs, no credit agency is involved.
 
 | Signal (register field) | Deduction | Why a surveyor cares |
 |---|---|---|
@@ -162,16 +162,16 @@ Two sources with **different currencies**, kept visibly distinct in the UI:
 
 | Source | Currency | Used by |
 |---|---|---|
-| [Companies House REST API](https://developer.company-information.service.gov.uk/) | **Live**: fetched at the moment of viewing | `covenant.py`, dashboard search + certificates |
+| [Companies House REST API](https://developer.company-information.service.gov.uk/) | **Live**, fetched at the moment of viewing | `covenant.py`, dashboard search + certificates |
 | [Free monthly bulk snapshot](https://download.companieshouse.gov.uk/en_output.html) | A **photograph** dated the 1st of the month | `sweep.py`, dashboard sweeps |
 
 The API is rate-limited at 600 requests/5 min; a full assessment costs ≤3 calls. The snapshot is ~470 MB zipped, and `sweep.py --build` distils it once to a ~190 MB Parquet queried by DuckDB in-place.
 
 ## Limitations, stated because they matter
 
-- **Registered ≠ trading addresses.** Many companies register at an accountant: 52% of W1S companies sit at just 20 addresses. A sweep finds the companies anchored to a place, not the shopfronts on it. (This is also why there is deliberately no dot-map in the dashboard.)
+- **Registered ≠ trading addresses.** Many companies register at an accountant; 52% of W1S companies sit at just 20 addresses. A sweep finds the companies anchored to a place, not the shopfronts on it. (This is also why there is deliberately no dot-map in the dashboard.)
 - **No financial figures.** Turnover and net assets live in iXBRL accounts documents, and many filers submit scanned image PDFs. The tool stops where free structured data stops rather than guessing.
-- **Registered UK companies only.** Not sole traders, partnerships, or overseas entities without a UK registration: the dashboard's appendix shows what to do in each of those cases.
+- **Registered UK companies only.** Not sole traders, partnerships, or overseas entities without a UK registration; the dashboard's appendix shows what to do in each of those cases.
 - **A screen, not an opinion.** It tells you which entities deserve an hour of a surveyor's attention. Nothing here is a Red Book valuation, a credit rating, or investment advice.
 
 ## Roadmap

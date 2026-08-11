@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{% block title %}Covenant{% endblock %}: tenant covenant screening</title>
+<title>{% block title %}Covenant{% endblock %} &middot; tenant covenant screening</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='covenant.css') }}">
 </head>
 <body>
@@ -12,7 +12,7 @@
   <div class="shell">
     <div>
       <a class="brand" href="{{ url_for('search') }}">Covenant</a>
-      <div class="brand-sub">Tenant covenant screening &middot; Source: Companies House (free, public) &middot; Independent &middot; not an official publication</div>
+      <div class="brand-sub">Tenant covenant screening &middot; Source: Companies House (free, public) &middot; Independent, not an official publication</div>
     </div>
     <nav class="crumbs no-print">
       <a href="{{ url_for('search') }}" {% if active == 'search' %}aria-current="page"{% endif %}><span class="num">01</span> Search</a>
@@ -27,7 +27,7 @@
 </main>
 <footer>
   <div class="shell">
-    <div class="quote">&ldquo;A screen, not an opinion &middot; it tells you which entities deserve an hour of a surveyor&rsquo;s attention.&rdquo;</div>
+    <div class="quote">&ldquo;A screen, not an opinion: it tells you which entities deserve an hour of a surveyor&rsquo;s attention.&rdquo;</div>
     <div>{% block footright %}Nothing here is a Red Book valuation or investment advice{% endblock %}</div>
   </div>
 </footer>

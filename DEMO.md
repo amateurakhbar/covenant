@@ -22,7 +22,7 @@ python covenant.py "Pret A Manger"
 ```
 
 ```
-  20 entities match 'Pret A Manger': the covenant is only as good as the one on the lease:
+  20 entities match 'Pret A Manger'; the covenant is only as good as the one on the lease:
 
       11391321  PRET A MANGER LIMITED                     active     inc. 2018-05-31
       10674734  PRET UK LIMITED                           active     inc. 2017-03-16
@@ -56,12 +56,12 @@ python covenant.py 11391321
   Findings
     • SIC 64209: Activities of other holding companies. This is not a trading company
     • Accounts type 'audit-exemption-subsidiary': relies on a parent guarantee (s479C)
-    • Controlled by Pret Holding 2 Ltd: a potential guarantor
+    • Controlled by Pret Holding 2 Ltd, a potential guarantor
 
   Recommended action
     → Assess Pret Holding 2 Ltd as the guarantor covenant.
     → Identify the trading entity in the group and take the covenant, or a guarantee, from that.
-    → The parent that gave the s479C guarantee is your real covenant: assess that entity instead.
+    → The parent that gave the s479C guarantee is your real covenant; assess that entity instead.
 ```
 
 The famous name is a **holding shell**: incorporated 2018 as JAB (ACQUISITION) LTD,
@@ -85,13 +85,13 @@ python covenant.py 01854213
 
   Findings
     • Files full accounts: the strongest disclosure level available
-    • Trading since 1984-10-10: 42 years of history
-    • Controlled by Pret A Manger Limited: a potential guarantor
+    • Trading since 1984-10-10, 42 years of history
+    • Controlled by Pret A Manger Limited, a potential guarantor
 ```
 
 Same brand, same registered address, opposite covenant. The entity with the less
 obvious name is the one that has traded since 1984 and files full accounts. **This
-distinction is free, public, and structured: and almost nobody checks it, because
+distinction is free, public, and structured, and almost nobody checks it, because
 checking it by hand across a rent roll is tedious.**
 
 ## Step 4: The zoom-out
@@ -138,8 +138,8 @@ python covenant.py 16043531
   Findings
     • Annual accounts are OVERDUE (due 2026-07-28): the single best early warning of distress
     • SIC 68209: Letting and operating of own or leased real estate. This is not a trading company
-    • Incorporated 2024-10-28: under 2 years of trading history
-    • Controlled by Clas Puma Limited: a potential guarantor
+    • Incorporated 2024-10-28, under 2 years of trading history
+    • Controlled by Clas Puma Limited, a potential guarantor
 
   Recommended action
     → Ask why accounts are late, in writing, before exchange.
@@ -148,7 +148,7 @@ python covenant.py 16043531
 ```
 
 A 2024 propco on one of the most famous retail addresses in Britain, whose first
-accounts went overdue two weeks before this demo was run, with a registered charge , 
+accounts went overdue two weeks before this demo was run, with a registered charge:
 surfaced by a free sweep and confirmed by a free API call.
 
 ---
@@ -157,10 +157,10 @@ surfaced by a free sweep and confirmed by a free API call.
 
 ```
 bulk snapshot (5.7M companies, monthly, free)
-      │  sweep.py: offline, ~0.6s per postcode area
+      │  sweep.py · offline, ~0.6s per postcode area
       ▼
 ranked area table → weakest names flagged
-      │  covenant.py: live API: PSC parent, floating charges, insolvency
+      │  covenant.py · live API: PSC parent, floating charges, insolvency
       ▼
 banded verdict + findings traced to filings + actions in transaction language
 ```
