@@ -183,11 +183,13 @@ The API is rate-limited at 600 requests/5 min; a full assessment costs ≤3 call
 
 ## Analytics
 
-Off unless `GA_ID` is set, so local runs, CI and anyone's clone stay clean. When it is set (the hosted demos), Google Analytics loads under **Consent Mode v2**: `analytics_storage` defaults to *denied*, a one-line bar asks, and nothing is stored unless the visitor accepts.
+[Cloudflare Web Analytics](https://www.cloudflare.com/web-analytics/), which is cookieless, stores nothing on the device and collects no personal data or fingerprint. No consent banner, and nothing for a visitor to dismiss before reading the page.
+
+Off unless `CF_BEACON_TOKEN` is set, so clones, local runs and CI stay clean.
 
 ```bash
-GA_ID=G-XXXXXXXXXX python app.py       # live dashboard
-GA_ID=G-XXXXXXXXXX python freeze.py    # bake it into the GitHub Pages capture
+CF_BEACON_TOKEN=<token> python app.py       # live dashboard
+CF_BEACON_TOKEN=<token> python freeze.py    # bake it into the GitHub Pages capture
 ```
 
 ## Sibling project

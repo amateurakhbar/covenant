@@ -43,8 +43,9 @@ app = Flask(__name__)
 
 @app.context_processor
 def _analytics():
-    """GA runs only when GA_ID is set, so local and CI runs stay clean."""
-    return {"ga_id": os.environ.get("GA_ID", "")}
+    """Analytics run only when CF_BEACON_TOKEN is set, so clones, local runs
+    and CI stay clean."""
+    return {"cf_token": os.environ.get("CF_BEACON_TOKEN", "")}
 
 
 CH_URL = "https://find-and-update.company-information.service.gov.uk/company"
