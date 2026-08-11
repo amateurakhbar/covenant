@@ -5,6 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-201e1d.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-201e1d.svg)](requirements.txt)
 [![Data: Companies House](https://img.shields.io/badge/Data-Companies%20House-ec3013.svg)](https://developer.company-information.service.gov.uk/)
+[![selftest](https://github.com/akbar-33/covenant/actions/workflows/selftest.yml/badge.svg)](https://github.com/akbar-33/covenant/actions/workflows/selftest.yml)
 
 A lease has been offered by entity X. **Is that covenant real, and if not, where does the actual money sit?**
 
@@ -179,6 +180,12 @@ The API is rate-limited at 600 requests/5 min; a full assessment costs ≤3 call
 1. **VOA rating-list join**: map covenant bands onto actual trading occupiers, floor areas and rateable values: "£Xm of rateable value in W1 sits on band-D covenants."
 2. **Covenant watch**: the Companies House streaming API pushes filing events in real time; alert a landlord the day a tenant goes accounts-overdue or grants a floating charge.
 3. **Rent cover**: parse iXBRL accounts where they exist; coverage will be partial and will say so.
+
+## Sibling project
+
+[**oversight**](https://github.com/akbar-33/oversight) · records tooling for the RICS professional standard *Responsible use of AI in surveying practice*, in force since 9 March 2026. A firm using covenant on real instructions has obligations under that standard: an AI system register, a written reliability decision by a named surveyor for each material output, client disclosure. Oversight produces those records, and its worked example registers covenant as one of the firm's AI systems, with a real reliability decision for the Pret screening above.
+
+One tool does surveying work with AI; the other governs AI to surveying standards. [Try the oversight sandbox](https://oversight-sandbox.onrender.com).
 
 ## Licence
 

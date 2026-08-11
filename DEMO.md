@@ -1,5 +1,11 @@
 # Demo: five steps from a name on a lease to a market-wide view
 
+[Covenant](https://github.com/akbar-33/covenant) screens UK commercial tenants for covenant strength using free Companies House data. This file is the narrative: what the tool tells you, in the order it tells you.
+
+- **[Run these steps yourself in the live dashboard](https://covenant-wtpu.onrender.com)** (free tier: allow ~30 s to wake)
+- **[Frozen capture](https://akbar-33.github.io/covenant/)** if the live app is asleep
+- **[Back to the README](README.md)** for setup, the scoring table and stated limitations
+
 Everything below is real output, run live on 2026-08-11 against the Companies House
 API and the 2026-08-01 bulk snapshot (5,695,465 companies). Every claim traces to a
 public filing you can click.
