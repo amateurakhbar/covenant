@@ -42,7 +42,7 @@
       </div>
 
       <h3 class="sechead">Schedule of findings</h3>
-      <div class="muted" style="font-size:12.5px;margin-bottom:10px">Every finding cites the public filing behind it. The score is deduction-based &mdash; see <a href="#methodology">how this is scored</a>.</div>
+      <div class="muted" style="font-size:12.5px;margin-bottom:10px">Every finding cites the public filing behind it. The score is deduction-based &middot; see <a href="#methodology">how this is scored</a>.</div>
       <table class="table tnum">
         <thead><tr>
           <th style="width:44px">Ref</th>
@@ -56,7 +56,7 @@
             <td style="color:var(--n600)">{{ '%02d' | format(loop.index) }}</td>
             <td>{{ d.finding }}</td>
             <td style="font-size:12.5px"><a href="{{ d.source[1] }}" style="color:var(--n700)">{{ d.source[0] }}</a></td>
-            <td class="ded">{% if d.points %}&minus;{{ d.points }}{% else %}<span style="color:var(--n500);font-weight:400">&mdash;</span>{% endif %}</td>
+            <td class="ded">{% if d.points %}&minus;{{ d.points }}{% else %}<span style="color:var(--n500);font-weight:400">&middot;</span>{% endif %}</td>
           </tr>
           {% endfor %}
           <tr style="border-top:2px solid var(--divider)">
@@ -92,16 +92,16 @@
   </div>
 
   <details class="method" id="methodology">
-    <summary><span>How is this scored?</span><span style="color:var(--accent);font-size:13px;font-weight:600">Deduction-based &mdash; starts at 100, every rule names its filing</span></summary>
+    <summary><span>How is this scored?</span><span style="color:var(--accent);font-size:13px;font-weight:600">Deduction-based &middot; starts at 100, every rule names its filing</span></summary>
     <div class="method-grid">
       <table class="table tnum" style="font-size:13px">
-        <thead><tr><th>Rule &mdash; register field</th><th style="text-align:right;width:90px">Deduction</th></tr></thead>
+        <thead><tr><th>Rule &middot; register field</th><th style="text-align:right;width:90px">Deduction</th></tr></thead>
         <tbody>
-          <tr><td>Dissolved / closed &mdash; company status</td><td class="ded">&minus;100</td></tr>
-          <tr><td>Liquidation, administration, receivership &mdash; company status</td><td class="ded">&minus;85</td></tr>
+          <tr><td>Dissolved / closed &middot; company status</td><td class="ded">&minus;100</td></tr>
+          <tr><td>Liquidation, administration, receivership &middot; company status</td><td class="ded">&minus;85</td></tr>
           <tr><td>Any other non-active status</td><td class="ded">&minus;60</td></tr>
-          <tr><td>Dormant accounts &mdash; last accounts type</td><td class="ded">&minus;45</td></tr>
-          <tr><td><strong>Accounts overdue</strong> &mdash; next accounts due date</td><td class="ded">&minus;30</td></tr>
+          <tr><td>Dormant accounts &middot; last accounts type</td><td class="ded">&minus;45</td></tr>
+          <tr><td><strong>Accounts overdue</strong> &middot; next accounts due date</td><td class="ded">&minus;30</td></tr>
           <tr><td>Micro-entity accounts</td><td class="ded">&minus;30</td></tr>
           <tr><td>No accounts filed yet</td><td class="ded">&minus;25</td></tr>
           <tr><td>Non-trading SIC (64209, 70100, 68209 &hellip;)</td><td class="ded">&minus;25</td></tr>
@@ -109,7 +109,7 @@
         </tbody>
       </table>
       <table class="table tnum" style="font-size:13px">
-        <thead><tr><th>Rule &mdash; register field</th><th style="text-align:right;width:90px">Deduction</th></tr></thead>
+        <thead><tr><th>Rule &middot; register field</th><th style="text-align:right;width:90px">Deduction</th></tr></thead>
         <tbody>
           <tr><td>Audit-exemption-subsidiary accounts (s479C)</td><td class="ded">&minus;20</td></tr>
           <tr><td>Under 2 years incorporated</td><td class="ded">&minus;20</td></tr>

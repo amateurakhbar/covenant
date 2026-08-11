@@ -13,7 +13,7 @@ which of them would I not want on a lease?"
 
 Caveat, stated because it matters: this sweeps REGISTERED office addresses.
 Many companies register at an accountant or agent. A registered-address sweep
-finds the companies anchored to a place, not necessarily the shopfronts on it —
+finds the companies anchored to a place, not necessarily the shopfronts on it;
 joining the VOA rating list for trading occupiers is the roadmap.
 """
 
@@ -126,7 +126,7 @@ def sweep(outward, csv_out=None, limit=25):
     print(f"\n  {total:,} companies registered in {outward.upper()}")
     print("  " + "  ".join(f"{b}: {bands.get(b, 0):,}" for b in "ABCDE"))
     weak = sum(bands.get(b, 0) for b in "CDE")
-    print(f"  {weak / total:.0%} are band C or below — "
+    print(f"  {weak / total:.0%} are band C or below: "
           f"would need a guarantee, deposit, or a hard look before going on a lease\n")
 
     print(f"  Weakest {min(limit, total)} covenants (deep-dive candidates for covenant.py):")

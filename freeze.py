@@ -35,7 +35,7 @@ PAGES = {
 BANNER = (
     '<div style="background:#201e1d;color:#f3f2f2;font-size:12px;letter-spacing:0.05em;'
     'padding:8px 32px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap">'
-    '<span>FROZEN CAPTURE &mdash; real register data, captured {date}. '
+    '<span>FROZEN CAPTURE &middot; real register data, captured {date}. '
     'Search and sweep inputs are inactive here.</span>'
     '<span>For live readings: <a href="https://github.com/amateurakhbar/covenant" '
     'style="color:#ffdd9c">clone the repo</a> and run <span style="font-family:monospace">'
@@ -76,7 +76,7 @@ def main():
         print(f"  {route:<38} -> docs/{fname}")
     # Pages must not run Jekyll (it would ignore nothing here, but be explicit).
     open(os.path.join(DOCS, ".nojekyll"), "w").close()
-    print("Frozen. Serve docs/ anywhere static — GitHub Pages, python -m http.server.")
+    print("Frozen. Serve docs/ anywhere static: GitHub Pages, python -m http.server.")
 
 
 if __name__ == "__main__":
